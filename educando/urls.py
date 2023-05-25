@@ -22,14 +22,14 @@ from django.contrib import admin
 
 router = routers.DefaultRouter()
 
-router.register(r'usuarios', views.UsuarioViewSet)
+router.register(r'usuarios/', views.UsuarioViewSet)
 
-router.register(r'categorias', views.CategoriaViewSet)
-router.register(r'cursos', views.CursoViewSet)
-router.register(r'miscursos', views.MisCursoViewSet)    
-router.register(r'carritos', views.CarritoViewSet)
-router.register(r'foros', views.ForoViewSet)
-router.register(r'contactos', views.ContactoViewSet)
+router.register(r'categorias/', views.CategoriaViewSet)
+router.register(r'cursos/', views.CursoViewSet)
+router.register(r'miscursos/', views.MisCursoViewSet)    
+router.register(r'carritos/', views.CarritoViewSet)
+router.register(r'foros/', views.ForoViewSet)
+router.register(r'contactos/', views.ContactoViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
