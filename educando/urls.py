@@ -20,11 +20,9 @@ from educando_eco import views
 from rest_framework.documentation import include_docs_urls
 from django.contrib import admin
 
-import educando_eco
-
 
 urlpatterns = [
-    path('', include(educando_eco.urls)),
+    path('', include('educando_eco.urls')),
     path('docs/', include_docs_urls(title='Educando')),
     path('admin/', admin.site.urls),
 ]
