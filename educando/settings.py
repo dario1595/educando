@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 "admin - Admin12"
+
 from pathlib import Path
 import os
 import dj_database_url
@@ -88,6 +89,15 @@ WSGI_APPLICATION = 'educando.wsgi.application'
 
 DATABASES = {
     'default':  dj_database_url.config ()
+
+       #{ 
+        #'ENGINE': 'django.db.backends.mysql',
+        #'NAME': 'bl82xxuanojmxbbbnecm',
+        #'USER': 'ufsngeswnjegrd2a',
+        #'PASSWORD':'yTzFtTsrDNLJY9BRxCfu',
+        #'HOST': 'bl82xxuanojmxbbbnecm-mysql.services.clever-cloud.com',
+        #'PORT': 3306,
+       #}
 }
 
 # Password validation
