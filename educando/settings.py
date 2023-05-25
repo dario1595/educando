@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'educando.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    
         dj_database_url.config ()
 
        # 'ENGINE': 'django.db.backends.mysql',
@@ -96,7 +96,7 @@ DATABASES = {
        # 'PASSWORD':'oPWCpZZMr3eLHZ0Kxvk7',
        # 'HOST': 'beekl1irs8bnemocqjp3-mysql.services.clever-cloud.com',
        # 'PORT': 3306,
-    }
+    
 }
 
 # Password validation
