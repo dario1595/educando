@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers
-from educando_ecommerce import views
+from educando_eco import views
 
 router = routers.DefaultRouter()
 router.register(r'Usuario', views.UsuarioViewSet)

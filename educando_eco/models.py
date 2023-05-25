@@ -11,8 +11,7 @@ class Rol(models.Model):
         db_table = 'rol'
         verbose_name = 'Rol de usuario'
         verbose_name_plural = 'Roles de usuarios'
-    def __unicode__(self):
-        return self.id_rol
+
     def __str__(self) :
         return str(self.id_rol)
 
@@ -44,8 +43,6 @@ class Categoria(models.Model):
         verbose_name = 'Categoria de curso'
         verbose_name_plural = 'Categorias de cursos'
         
-    def __unicode__(self):
-        return self.id_categoria
     def __str__(self) :
         return str(self.id_categoria)
 
@@ -63,8 +60,6 @@ class Curso(models.Model):
         verbose_name = 'Curso'
         verbose_name_plural = 'Cursos'
         
-    def __unicode__(self):
-        return self.id_curso
     def __str__(self):
         return str(self.id_curso)
 
@@ -78,8 +73,6 @@ class MisCurso(models.Model):
         verbose_name = 'Mi Curso comprado'
         verbose_name_plural = 'Mis Cursos comprados'
         
-    def __unicode__(self):
-        return self.id_mis_curso
     def __str__(self) :
         return str(self.id_mis_curso)
 
@@ -94,8 +87,6 @@ class Carrito(models.Model):
         verbose_name = 'Curso seleccionado para comprar'
         verbose_name_plural = 'Cursos seleccionados para comprar'
     
-    def __unicode__(self):
-        return self.id_carrito
     def __str__(self) :
         return str(self.id_carrito)
 
@@ -110,8 +101,6 @@ class Foro(models.Model):
         verbose_name = 'Foro de consulta'
         verbose_name_plural = 'Foros de consultas'
     
-    def __unicode__(self):
-        return self.id_foro
     def __str__(self) :
         return str(self.id_foro)
 
@@ -120,12 +109,11 @@ class Contacto(models.Model):
     email = models.CharField(max_length=250, null=True)
     nombre = models.CharField(max_length=80, null=True)
     mensaje = models.CharField(max_length=500, null=True)
+
     class Meta:
         db_table = 'contacto'
         verbose_name = 'Consulta de usuario'
         verbose_name_plural = 'Consultas de usuarios'
     
-    def __unicode__(self):
-        return self.id_contacto
     def __str__(self) :
         return str( self.id_contacto)

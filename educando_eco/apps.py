@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class EducandoEcommerceConfig(AppConfig):
+class EducandoEcoConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'educando_ecommerce'
+    name = 'educando_eco'

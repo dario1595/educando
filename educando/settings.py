@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'coreapi',
-    'educando_ecommerce',
+    'educando_eco',
     'corsheaders',
 ]
 

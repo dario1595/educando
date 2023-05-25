@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.urls import path, include
 from rest_framework import routers
-from educando_ecommerce import views
+from educando_eco import views
 from rest_framework.documentation import include_docs_urls
 from django.contrib import admin
 
@@ -33,6 +33,6 @@ router.register(r'contactos', views.ContactoViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('docs/', include_docs_urls(title='appEducando')),
+    path('docs/', include_docs_urls(title='Educando')),
     path('admin/', admin.site.urls),
 ]
