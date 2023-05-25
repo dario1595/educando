@@ -20,19 +20,11 @@ from educando_eco import views
 from rest_framework.documentation import include_docs_urls
 from django.contrib import admin
 
-router = routers.DefaultRouter()
+import educando_eco
 
-router.register(r'usuarios/', views.UsuarioViewSet)
-
-router.register(r'categorias/', views.CategoriaViewSet)
-router.register(r'cursos/', views.CursoViewSet)
-router.register(r'miscursos/', views.MisCursoViewSet)    
-router.register(r'carritos/', views.CarritoViewSet)
-router.register(r'foros/', views.ForoViewSet)
-router.register(r'contactos/', views.ContactoViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', include(educando_eco.urls)),
     path('docs/', include_docs_urls(title='Educando')),
     path('admin/', admin.site.urls),
 ]
