@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'coreapi',
-    'api_cursos',
+    'educando_ecommerce',
     'corsheaders',
 ]
 
@@ -88,13 +88,6 @@ WSGI_APPLICATION = 'educando.wsgi.application'
 
 DATABASES = {
     'default':  dj_database_url.config ()
-
-       # 'ENGINE': 'django.db.backends.mysql',
-       # 'NAME': 'beekl1irs8bnemocqjp3',
-       # 'USER': 'uodgbqtcldbwx7zl',
-       # 'PASSWORD':'oPWCpZZMr3eLHZ0Kxvk7',
-       # 'HOST': 'beekl1irs8bnemocqjp3-mysql.services.clever-cloud.com',
-       # 'PORT': 3306,
 }
 
 # Password validation
