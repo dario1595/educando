@@ -37,7 +37,7 @@ class Usuario(models.Model):
 class Categoria(models.Model):
     id_categoria = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=45, null=True)
-    descripcion = models.CharField(max_length=45, null=True)
+    descripcion = models.CharField(max_length=250, null=True)
     class Meta:
         db_table = 'categoria'
         verbose_name = 'Categoria de curso'
