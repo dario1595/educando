@@ -61,7 +61,7 @@ class Curso(models.Model):
         verbose_name_plural = 'Cursos'
         
     def __str__(self):
-        return str(self.id_curso)
+        return self.duracion
 
 
 class MisCurso(models.Model):
