@@ -10,6 +10,6 @@ router.register(r'MisCurso', views.MisCursoViewSet,'misCurso')
 router.register(r'Carrito', views.CarritoViewSet,'carrito')
 router.register(r'Foro', views.ForoViewSet,'foro')
 router.register(r'Contacto', views.ContactoViewSet,'contacto')
-
+router.register(r'Calificacion', views.Curso)
 urlpatterns = router.urls
 
