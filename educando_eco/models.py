@@ -52,6 +52,7 @@ class Curso(models.Model):
     nombre_curso = models.CharField(max_length=80, null=True)
     duracion = models.IntegerField(null=True)
     precio = models.IntegerField(null=True)
+    descripcion = models.CharField(max_length= 2000, null=True)
     calificacion= models.FloatField( null=True,default=None)
     fecha_alta_curso = models.DateTimeField(null=True, auto_now_add=True)
     imagen_url = models.URLField(null=True,max_length=500)
@@ -61,7 +62,7 @@ class Curso(models.Model):
         verbose_name_plural = 'Cursos'
         
     def __str__(self):
-        return self.duracion
+        return str(self.id_curso)
 
 
 class MisCurso(models.Model):

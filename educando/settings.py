@@ -92,10 +92,10 @@ DATABASES = {
 
        #{ 
         #'ENGINE': 'django.db.backends.mysql',
-        #'NAME': 'bl82xxuanojmxbbbnecm',
-        #'USER': 'ufsngeswnjegrd2a',
-        #'PASSWORD':'yTzFtTsrDNLJY9BRxCfu',
-        #'HOST': 'bl82xxuanojmxbbbnecm-mysql.services.clever-cloud.com',
+        #'NAME': 'educando',
+        #'USER': 'admin',
+        #'PASSWORD':'32034685a',
+        #'HOST': 'educando.cirdv7yvfitg.us-east-2.rds.amazonaws.com',
         #'PORT': 3306,
        #}
 }
