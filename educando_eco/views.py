@@ -16,10 +16,6 @@ class CursoViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     serializer_class = CursoSerializer
 
-    def get_queryset(self):
-        return self.queryset.filter(name__incontains = self.request.data.get('nombre_curso',''))
-
-
 class MisCursoViewSet(viewsets.ModelViewSet):   
     queryset = MisCurso.objects.all()
     permission_classes = [permissions.AllowAny]
