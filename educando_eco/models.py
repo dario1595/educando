@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import (AbstractBaseUser,PermissionsMixin,BaseUserManager)
 
 # Create your models here.
   
@@ -16,23 +17,53 @@ class Rol(models.Model):
         return str(self.id_rol)
 
 
-class Usuario(models.Model):
+#===========================================================================================================================================================================
+
+class UserManager(BaseUserManager): #BaseUserManager proporciona un método llamado create_user que te permite crear y guardar un nuevo usuario en la base de datos. 
+    def create_user(self, email, password,**extra_fields):
+        if not email:
+            raise ValueError('Falta e-mail')
+        if not password:
+            raise ValueError('Falta ingresar password')
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)        
+        user.save(using=self._db)
+
+        return user
+
+    def create_superuser(self, email, password):
+
+        user = self.create_user(email,password)
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+
+        return user
+      
+class Usuario(AbstractBaseUser,PermissionsMixin):
     id_usuario = models.AutoField(primary_key=True)
     id_rol = models.ForeignKey(Rol, on_delete=models.CASCADE, null=True, related_name='usuario_rol')
-    email = models.CharField(max_length=250, null=True)
+    email = models.CharField(unique = True, max_length=250, null=True)
     nombre = models.CharField(max_length=80, null=True)
     apellido = models.CharField(max_length=80, null=True)
-    password = models.CharField(max_length=45, null=True)
+    password = models.CharField(max_length=100, null=True)
     fecha_alta_usuario = models.DateTimeField(null=True, auto_now_add=True)
     fecha_baja_usuario = models.DateTimeField(null=True, default=None, blank=True)
+    is_staff = models.BooleanField(default=False)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = 'email'
 
     class Meta:
         db_table = 'usuario'
         verbose_name = 'Usuario registrado mediante el front'
         verbose_name_plural = 'Usuarios registrados mediante el front'
 
-    def __str__(self):
+    def str(self):
         return str(self.id_usuario)
+
+#===========================================================================================================================================================================
 
 class Categoria(models.Model):
     id_categoria = models.AutoField(primary_key=True)
