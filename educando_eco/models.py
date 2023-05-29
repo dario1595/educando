@@ -54,7 +54,7 @@ class Usuario(AbstractBaseUser,PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-
+    REQUIRED_FIELDS =  ['username','password']
     class Meta:
         db_table = 'usuario'
         verbose_name = 'Usuario registrado mediante el front'

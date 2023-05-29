@@ -8,17 +8,21 @@ class RolSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 #===========================================================================================================================================================================
-class UsuarioSerializer(serializers.ModelSerializer):
+class UsuarioSerializer(serializers.Serializer):
+    nombre = serializers.CharField(required=True)
+    apellido = serializers.CharField(required=True)
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(required=True)
+    
     class Meta:
         model = Usuario
-        fields = ['nombre', 'email', 'password']
+        fields = ['nombre', 'apellido','email', 'password']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
         password = validated_data.pop('password')
         usuario = Usuario.objects.create_user(password=password, **validated_data)
         return usuario
-    
 #===========================================================================================================================================================================
 class CategoriaSerializer(serializers.ModelSerializer):   
     class Meta:

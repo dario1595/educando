@@ -12,7 +12,7 @@ router.register(r'Contacto', views.ContactoViewSet,'contacto')
 
 urlpatterns = [
     *router.urls,
-    path('registro/', views.registro, name='registro'),
-    path('login/', views.inicio_sesion, name='login'),
-    path('usuarios/', views.lista_usuarios, name='lista_usuarios'),
+    path('registro/', views.UsuarioView.as_view(), name='registro'),
+    path('login/', views.UsuarioView.inicio_sesion, name='login'),
+    path('usuarios/', views.UsuarioView.lista_usuarios, name='lista_usuarios'),
 ]
