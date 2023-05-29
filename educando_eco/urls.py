@@ -11,8 +11,14 @@ router.register(r'Foro', views.ForoViewSet,'foro')
 router.register(r'Contacto', views.ContactoViewSet,'contacto')
 
 urlpatterns = [
-    *router.urls,
+    *router.urls,  # Se incluyen las URLs generadas por el enrutador
+
+    # URL para el registro de usuarios
     path('registro/', views.UsuarioView.as_view(), name='registro'),
+
+    # URL para el inicio de sesión de usuarios
     path('login/', views.UsuarioView.inicio_sesion, name='login'),
+
+    # URL para obtener la lista de usuarios
     path('usuarios/', views.UsuarioView.lista_usuarios, name='lista_usuarios'),
 ]

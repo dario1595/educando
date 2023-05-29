@@ -9,19 +9,24 @@ class RolSerializer(serializers.ModelSerializer):
 
 #===========================================================================================================================================================================
 class UsuarioSerializer(serializers.Serializer):
+    # Se definen los campos del serializer
     nombre = serializers.CharField(required=True)
     apellido = serializers.CharField(required=True)
     email = serializers.EmailField(required=True)
     password = serializers.CharField(required=True)
-    
+
     class Meta:
         model = Usuario
-        fields = ['nombre', 'apellido','email', 'password']
+        fields = ['nombre', 'apellido', 'email', 'password']
         extra_kwargs = {'password': {'write_only': True}}
+        #El campo password tiene la configuración adicional write_only=True, lo que significa que solo se utilizará para la creación de un nuevo usuario y no se incluirá en las respuestas de serialización
 
     def create(self, validated_data):
+        # Se extrae el campo 'password' del diccionario de datos validados
         password = validated_data.pop('password')
+        # Se crea un nuevo usuario utilizando el método create_user de la clase Usuario
         usuario = Usuario.objects.create_user(password=password, **validated_data)
+        # Se retorna el usuario creado
         return usuario
 #===========================================================================================================================================================================
 class CategoriaSerializer(serializers.ModelSerializer):   
