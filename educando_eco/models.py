@@ -26,18 +26,16 @@ class UserManager(BaseUserManager): #BaseUserManager proporciona un método llam
         if not password:
             raise ValueError('Falta ingresar password')
         user = self.model(email=email, **extra_fields)
-        user.set_password(password)        
-        user.save(using=self._db)
-
+        user.set_password(password)   # Establecer la contraseña     
+        user.save()
         return user
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, email, password, nombre):
 
-        user = self.create_user(email,password)
+        user = self.create_user(email=email, password=password, nombre=nombre)
         user.is_staff = True
         user.is_superuser = True
-        user.save(using=self._db)
-
+        user.save()
         return user
       
 class Usuario(AbstractBaseUser,PermissionsMixin):
@@ -50,7 +48,9 @@ class Usuario(AbstractBaseUser,PermissionsMixin):
     fecha_alta_usuario = models.DateTimeField(null=True, auto_now_add=True)
     fecha_baja_usuario = models.DateTimeField(null=True, default=None, blank=True)
     is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
+    # Configura el administrador de usuarios personalizado
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

@@ -1,7 +1,6 @@
 from  rest_framework import serializers
 
-from .models import Rol, Categoria,Curso, MisCurso, Carrito, Foro, Contacto
-from django.contrib.auth import get_user_model, authenticate
+from .models import Rol, Usuario, Categoria,Curso, MisCurso, Carrito, Foro, Contacto
 
 class RolSerializer(serializers.ModelSerializer):    
     class Meta:
@@ -11,38 +10,14 @@ class RolSerializer(serializers.ModelSerializer):
 #===========================================================================================================================================================================
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
-        model = get_user_model()
-        fields = ['email','password','nombre', 'apellido']
-        extra_kwargs = {'password': {'write_only':True}}    # le da a password una propiedad que es solamente escritura y no te devuelve el password en un get
-    def create(self, valida_data):  # para crear usuario
-        return get_user_model().objects.create_user(**valida_data)
+        model = Usuario
+        fields = ['nombre', 'email', 'password']
+        extra_kwargs = {'password': {'write_only': True}}
 
-    def update(self, instance, validate_data):  # para actualizacion de password
-        password = validate_data.pop('password', None)
-        user = super().update(instance, validate_data)
-
-        if password:
-            user.set_password(password)
-            user.save()
-        return user
-    
-class AuthTokenSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    password = serializers.CharField(style={'input_type':'password'})
-
-    def validate(self, data):
-        email = data.get('email')
-        password = data.get('password')
-        user = authenticate(
-            request=self.context.get('request'),
-            username = email,
-            password = password
-        )
-
-        if not user:
-            raise serializers.ValidationError('No se pudo validar el usuario', code='authorization')
-        data ['user'] = user
-        return data
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        usuario = Usuario.objects.create_user(password=password, **validated_data)
+        return usuario
     
 #===========================================================================================================================================================================
 class CategoriaSerializer(serializers.ModelSerializer):   

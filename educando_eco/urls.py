@@ -12,8 +12,7 @@ router.register(r'Contacto', views.ContactoViewSet,'contacto')
 
 urlpatterns = [
     *router.urls,
-    path('list/', views.ListUserView.as_view()),
-    path('Token/', views.CreateTokenView.as_view()),
-    path('Registro/', views.CreateUserView.as_view()),
-    path('Usuario/', views.RetriveUpdateUserView.as_view()),
+    path('registro/', views.registro, name='registro'),
+    path('login/', views.inicio_sesion, name='login'),
+    path('usuarios/', views.lista_usuarios, name='lista_usuarios'),
 ]

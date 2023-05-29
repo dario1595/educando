@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 "admin - Admin12"
 
 from pathlib import Path
+from datetime import timedelta
 import os
 import dj_database_url
 
@@ -24,6 +25,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
+
+JWT_AUTH = {
+    'JWT_SECRET_KEY': SECRET_KEY,
+    'JWT_ALGORITHM': 'HS256',
+}
+
+CSRF_COOKIE_SECURE = False
+
+CSRF_COOKIE_HTTPONLY = False
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'RENDER' not in os.environ
@@ -61,7 +71,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',    
     'django.middleware.common.CommonMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'educando.urls'
@@ -89,16 +99,16 @@ WSGI_APPLICATION = 'educando.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default':  dj_database_url.config ()
+    'default':  #dj_database_url.config ()
 
-       #{ 
-       # 'ENGINE': 'django.db.backends.mysql',
-       # 'NAME': 'educando',
-       # 'USER': 'admin',
-       # 'PASSWORD':'32034685a',
-       # 'HOST': 'educando.cirdv7yvfitg.us-east-2.rds.amazonaws.com',
-       # 'PORT': 3306,
-       #}
+       { 
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'educando',
+        'USER': 'admin',
+        'PASSWORD':'32034685a',
+        'HOST': 'educando.cirdv7yvfitg.us-east-2.rds.amazonaws.com',
+        'PORT': 3306,
+       }
 }
 
 # Password validation
@@ -147,7 +157,17 @@ if not DEBUG:
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'rest_framework_simplejwt.authentication.JWTAuthentication',
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.BasicAuthentication',
+    ],
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
