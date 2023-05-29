@@ -4,10 +4,9 @@ from .models import  Usuario, Categoria,Curso, MisCurso, Carrito, Foro, Contacto
 
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.settings import api_settings
 from django.views.decorators.csrf import csrf_exempt
 import json
+import jwt
 
 @csrf_exempt
 def registro(request):
@@ -28,12 +27,8 @@ def registro(request):
             usuario.save()
 
             # Generar JWT
-            refresh = RefreshToken.for_user(usuario)
-            token = {
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-                'id': usuario.id_usuario  # Utilizar el campo "id_usuario" en lugar de "id"
-            }
+            token_payload = {'user_id': usuario.id_usuario, 'email': email, 'nombre': nombre}
+            token = jwt.encode(token_payload, 'your_secret_key', algorithm='HS256')
 
             return JsonResponse({'mensaje': 'Registro exitoso', 'token': token})
 
@@ -41,7 +36,6 @@ def registro(request):
             return JsonResponse({'mensaje': 'Datos no válidos'})
 
     return JsonResponse({'mensaje': 'Método no permitido'})
-
 
 @csrf_exempt
 def inicio_sesion(request):
@@ -56,11 +50,12 @@ def inicio_sesion(request):
 
             if usuario is not None:
                 # Generar JWT
-                refresh = RefreshToken.for_user(usuario)
-                token = {
-                    'refresh': str(refresh),
-                    'access': str(refresh.access_token),
+                payload = {
+                    'user_id': usuario.id_usuario,
+                    'email': email,
+                    'nombre': usuario.nombre
                 }
+                token = jwt.encode(payload, 'your_secret_key', algorithm='HS256')
 
                 return JsonResponse({'mensaje': 'Inicio de sesión exitoso', 'token': token})
             else:
@@ -73,7 +68,7 @@ def inicio_sesion(request):
 @csrf_exempt
 def lista_usuarios(request):
     usuarios = Usuario.objects.all()
-    usuarios_data = [{'nombre': usuario.nombre, 'correo': usuario.email} for usuario in usuarios]
+    usuarios_data = [{'nombre': usuario.nombre, 'correo': usuario.correo} for usuario in usuarios]
     return JsonResponse({'usuarios': usuarios_data})
 
 #===========================================================================================================================================================================    
