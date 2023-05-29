@@ -11,6 +11,7 @@ from .serializer import UsuarioSerializer
 import json
 import jwt
 
+from django.conf import settings
 
 class UsuarioView(APIView):
     @csrf_exempt
@@ -34,7 +35,7 @@ class UsuarioView(APIView):
 
             # Generar un token JWT (JSON Web Token)
             token_payload = {'user_id': usuario.id_usuario, 'email': email, 'nombre': nombre}
-            token = jwt.encode(token_payload, 'your_secret_key', algorithm='HS256')
+            token = jwt.encode(token_payload, settings.SECRET_KEY, algorithm='HS256')
 
             # Se retorna una respuesta con un mensaje de éxito, el token y un código de estado 201 (Creado)
             return Response({'mensaje': 'Registro exitoso', 'token': token}, status=201)
@@ -62,7 +63,7 @@ class UsuarioView(APIView):
                         'email': email,
                         'nombre': usuario.nombre
                     }
-                    token = jwt.encode(payload, 'your_secret_key', algorithm='HS256')
+                    token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
 
                     # Se retorna una respuesta JSON con un mensaje de éxito, el token y un código de estado 200 (Éxito)
                     return JsonResponse({'mensaje': 'Inicio de sesión exitoso', 'token': token}, status=200)
