@@ -65,9 +65,9 @@ class UsuarioView(APIView):
 
                 if usuario is not None:
                     # Si las credenciales son válidas, se genera un token JWT (JSON Web Token) con tiempo de expiración
-                    expiration_time = datetime.datetime.now() + datetime.timedelta(hours=1)
+                    expiration_time = datetime.datetime.now() + datetime.timedelta(hours=12)
                     payload = {
-                        'user_id': usuario.id_usuario,
+                        'id_usuario': usuario.id_usuario,
                         'email': email,
                         'nombre': usuario.nombre,
                         'exp': expiration_time
@@ -109,24 +109,23 @@ class CursoViewSet(viewsets.ModelViewSet):
 
 
 #===========================================================================================================================================================================
+
 class MisCursosView(APIView):
     serializer_class = MisCursoSerializer
     permission_classes = [IsAuthenticated]
-
+    
     def get(self, request):
         # Obtén el token de la solicitud
         token = request.META.get('HTTP_AUTHORIZATION', '').split(' ')[1]
 
         # Verifica el token
-        payload = verificar_token(token)
-
-        if payload is None:
+        usuario_id = verificar_token(token)
+        if usuario_id is None:
             # El token no es válido, devuelve un mensaje de error y un código de estado 401 (No autorizado)
             return Response({'mensaje': 'Token inválido'}, status=401)
 
         # El token es válido, obtén el usuario autenticado
-        usuario_id = payload.get('user_id')
-        usuario = get_object_or_404(Usuario, id=usuario_id)
+        usuario = get_object_or_404(Usuario, id_usuario=usuario_id)
 
         # Obtén los cursos del usuario y serialízalos
         cursos = MisCurso.objects.filter(id_usuario=usuario)
@@ -134,6 +133,7 @@ class MisCursosView(APIView):
 
         # Devuelve los cursos serializados
         return Response(serializer.data)
+    
 class AdquirirCursoView(APIView):
     def post(self, request):
         # Obtiene el usuario logueado

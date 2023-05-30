@@ -1,16 +1,16 @@
 import jwt
 from django.conf import settings
+from rest_framework.exceptions import AuthenticationFailed
 
 def verificar_token(token):
-    try:
-        # Decodifica el token JWT utilizando el mismo secreto utilizado para generarlo
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+    if not token:
+        raise AuthenticationFailed('Token vacío')
 
-        # El token es válido, devuelve el payload del token
-        return payload
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+        id_usuario = payload.get('id_usuario')
+        return id_usuario
     except jwt.ExpiredSignatureError:
-        # El token ha expirado
-        return None
+        raise AuthenticationFailed('Token expirado')
     except jwt.InvalidTokenError:
-        # El token no es válido
-        return None
+        raise AuthenticationFailed('Token inválido')
