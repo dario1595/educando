@@ -37,10 +37,18 @@ class CursoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Curso
         fields = '__all__'
-class MisCursoSerializer(serializers.ModelSerializer):  
+
+#===========================================================================================================================================================================
+class MisCursoSerializer(serializers.ModelSerializer):
+    curso = CursoSerializer()  # Serializador del modelo Curso
+
+    # Agregar campo de descripción
+    descripcion_curso = serializers.CharField(source='curso.descripcion', read_only=True)
     class Meta:
         model = MisCurso
-        fields = '__all__'
+        fields = ['id_mis_curso', 'id_usuario', 'curso', 'descripcion_curso']
+        
+#===========================================================================================================================================================================
 class CarritoSerializer(serializers.ModelSerializer):   
     class Meta:
         model = Carrito

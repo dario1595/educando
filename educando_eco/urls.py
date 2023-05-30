@@ -5,7 +5,6 @@ from educando_eco import views
 router = routers.DefaultRouter()
 router.register(r'Categoria', views.CategoriaViewSet,'categoria')
 router.register(r'Curso', views.CursoViewSet,'curso')
-router.register(r'MisCurso', views.MisCursoViewSet,'misCurso')
 router.register(r'Carrito', views.CarritoViewSet,'carrito')
 router.register(r'Foro', views.ForoViewSet,'foro')
 router.register(r'Contacto', views.ContactoViewSet,'contacto')
@@ -21,4 +20,8 @@ urlpatterns = [
 
     # URL para obtener la lista de usuarios
     path('Usuarios/', views.UsuarioView.lista_usuarios, name='lista_usuarios'),
+
+    path('mis_cursos/', views.MisCursosView.as_view(), name='mis_cursos'),
+
+    path('adquirir_curso/', views.AdquirirCursoView.as_view(), name='adquirir_curso')
 ]
