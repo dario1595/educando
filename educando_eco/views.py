@@ -1,4 +1,5 @@
 
+
 from .serializer import  UsuarioSerializer, CategoriaSerializer, CursoSerializer, MisCursoSerializer, CarritoSerializer, ForoSerializer, ContactoSerializer
 from .models import  Usuario, Categoria,Curso, MisCurso, Carrito, Foro, Contacto
 
@@ -18,7 +19,7 @@ from django.shortcuts import get_object_or_404
 import json, datetime, jwt
 
 class UsuarioView(APIView):
-
+    @csrf_exempt
     def post(self, request):
         # Se recibe una solicitud POST con los datos del usuario a registrar
         serializer = UsuarioSerializer(data=request.data)
@@ -48,7 +49,9 @@ class UsuarioView(APIView):
             # Si los datos no son válidos, se retorna un mensaje de error con los errores del serializer y un código de estado 400 (Solicitud incorrecta)
             return Response({'mensaje': 'Datos no válidos', 'errores': serializer.errors}, status=400)
 
-
+    @staticmethod
+    @csrf_exempt
+    
     def inicio_sesion(request):
         if request.method == 'POST':
             try:
@@ -85,7 +88,8 @@ class UsuarioView(APIView):
         # Si el método de la solicitud no es POST, se retorna un mensaje de error y un código de estado 405 (Método no permitido)
         return JsonResponse({'mensaje': 'Método no permitido'}, status=405)
 
-    
+    @staticmethod
+    @csrf_exempt
     def lista_usuarios(request):
         # Se obtienen todos los usuarios de la base de datos
         usuarios = Usuario.objects.all()
