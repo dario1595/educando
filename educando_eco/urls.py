@@ -21,7 +21,7 @@ urlpatterns = [
     # URL para obtener la lista de usuarios
     path('Usuarios/', views.UsuarioView.lista_usuarios, name='lista_usuarios'),
 
-    path('mis_cursos/', views.MisCursosView.as_view(), name='mis_cursos'),
+    path('Mis_cursos/', views.MisCursosView.as_view(), name='mis_cursos'),
 
-    path('adquirir_curso/', views.AdquirirCursoView.as_view(), name='adquirir_curso')
+    path('Adquirir_curso/', views.AdquirirCursoView.as_view(), name='adquirir_curso')
 ]

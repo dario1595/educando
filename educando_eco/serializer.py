@@ -28,11 +28,14 @@ class UsuarioSerializer(serializers.Serializer):
         usuario = Usuario.objects.create_user(password=password, **validated_data)
         # Se retorna el usuario creado
         return usuario
+    
 #===========================================================================================================================================================================
+
 class CategoriaSerializer(serializers.ModelSerializer):   
     class Meta:
         model = Categoria
         fields = '__all__'
+
 class CursoSerializer(serializers.ModelSerializer): 
     class Meta:
         model = Curso
@@ -50,16 +53,18 @@ class MisCursoSerializer(serializers.ModelSerializer):
         model = MisCurso
         fields = ['id_mis_curso', 'id_usuario', 'id_curso', 'descripcion_curso']
 
-        
+
 #===========================================================================================================================================================================
 class CarritoSerializer(serializers.ModelSerializer):   
     class Meta:
         model = Carrito
         fields = '__all__'
+
 class ForoSerializer(serializers.ModelSerializer):   
     class Meta:
         model = Foro
         fields = '__all__'
+
 class ContactoSerializer(serializers.ModelSerializer):  
     class Meta:
         model = Contacto

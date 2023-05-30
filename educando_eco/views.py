@@ -1,21 +1,23 @@
-from rest_framework import viewsets, permissions
+
+
 from .serializer import  UsuarioSerializer, CategoriaSerializer, CursoSerializer, MisCursoSerializer, CarritoSerializer, ForoSerializer, ContactoSerializer
 from .models import  Usuario, Categoria,Curso, MisCurso, Carrito, Foro, Contacto
 
+from rest_framework import viewsets, permissions
 from rest_framework.permissions import AllowAny
-from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.exceptions import AuthenticationFailed
+
+from django.utils import timezone
+from django.conf import settings
+from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
-from .serializer import UsuarioSerializer
+from django.shortcuts import get_object_or_404
+
 import json, datetime, jwt
 
- 
-from django.conf import settings
-from django.shortcuts import get_object_or_404
-from rest_framework.exceptions import AuthenticationFailed
-from django.utils import timezone
 class UsuarioView(APIView):
     @csrf_exempt
     def post(self, request):
@@ -102,6 +104,7 @@ class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = CategoriaSerializer  
+
 class CursoViewSet(viewsets.ModelViewSet):  
     queryset = Curso.objects.all()
     permission_classes = [permissions.AllowAny]
@@ -144,37 +147,65 @@ class MisCursosView(APIView):
         # Devuelve los cursos serializados
         return Response(serializer.data)
     
+
+
 class AdquirirCursoView(APIView):
+    def verificar_token(self, token):
+        try:
+            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+            id_usuario = payload.get('id_usuario')
+            return id_usuario
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed('Token expirado')
+        except jwt.InvalidTokenError:
+            raise AuthenticationFailed('Token inválido')
+
     def post(self, request):
-        # Obtiene el usuario logueado
-        usuario = request.user
-        
         # Obtén el ID del curso a adquirir desde los datos de la solicitud
         id_curso = request.data.get('id_curso')
         
+        # Obtén el token del usuario desde los datos de la solicitud
+        token = request.data.get('token')
+
         try:
-            # Verifica si el curso existe
-            curso = Curso.objects.get(id_curso=id_curso)
+            # Verifica si el token es válido y obtén el ID del usuario autenticado
+            usuario_id = self.verificar_token(token)
+            if usuario_id is None:
+                # El token no es válido, devuelve un mensaje de error y un código de estado 401 (No autorizado)
+                return Response({'mensaje': 'Token inválido'}, status=401)
             
-            # Crea una instancia de MisCurso para vincular el usuario y el curso
-            mis_curso = MisCurso.objects.create(id_usuario=usuario, id_curso=curso)
+            # El token es válido, obtén el usuario autenticado
+            usuario = get_object_or_404(Usuario, id_usuario=usuario_id)
             
-            # Serializa la instancia de MisCurso
-            serializer = MisCursoSerializer(mis_curso)
-            
-            return Response(serializer.data, status=201)
-        except Curso.DoesNotExist:
-            return Response({'mensaje': 'El curso no existe'}, status=400)
+            try:
+                # Verifica si el curso existe
+                curso = Curso.objects.get(id_curso=id_curso)
+                
+                # Crea una instancia de MisCurso para vincular el usuario y el curso
+                mis_curso = MisCurso.objects.create(id_usuario=usuario, id_curso=curso)
+                
+                # Serializa la instancia de MisCurso
+                serializer = MisCursoSerializer(mis_curso)
+                
+                return Response(serializer.data, status=201)
+            except Curso.DoesNotExist:
+                return Response({'mensaje': 'El curso no existe'}, status=400)
+        
+        except AuthenticationFailed as e:
+            return Response({'mensaje': str(e)}, status=401)
+
 
 #===========================================================================================================================================================================
 class CarritoViewSet(viewsets.ModelViewSet):    
     queryset = Carrito.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = CarritoSerializer
+
 class ForoViewSet(viewsets.ModelViewSet):   
     queryset = Foro.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = ForoSerializer
+
 class ContactoViewSet(viewsets.ModelViewSet):   
     queryset = Contacto.objects.all()
     permission_classes = [permissions.AllowAny]
