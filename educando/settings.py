@@ -12,8 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 "admin - Admin12"
 
 from pathlib import Path
-import os
-import dj_database_url
+import os, dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -161,3 +160,4 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_ALLOW_ALL = True
 
 AUTH_USER_MODEL = 'educando_eco.Usuario'
+

@@ -1,23 +1,21 @@
-from rest_framework import viewsets, permissions, generics
+from rest_framework import viewsets, permissions
 from .serializer import  UsuarioSerializer, CategoriaSerializer, CursoSerializer, MisCursoSerializer, CarritoSerializer, ForoSerializer, ContactoSerializer
 from .models import  Usuario, Categoria,Curso, MisCurso, Carrito, Foro, Contacto
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from .serializer import UsuarioSerializer
-import json, datetime
-import jwt
+import json, datetime, jwt
 
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, AllowAny
+ 
 from django.conf import settings
-from educando.utils import verificar_token
 from django.shortcuts import get_object_or_404
-
+from rest_framework.exceptions import AuthenticationFailed
+from django.utils import timezone
 class UsuarioView(APIView):
     @csrf_exempt
     def post(self, request):
@@ -65,12 +63,14 @@ class UsuarioView(APIView):
 
                 if usuario is not None:
                     # Si las credenciales son válidas, se genera un token JWT (JSON Web Token) con tiempo de expiración
-                    expiration_time = datetime.datetime.now() + datetime.timedelta(hours=12)
+                    expiration_time = timezone.now() + datetime.timedelta(hours=12)
+                    expiration_timestamp = int(expiration_time.timestamp())
+
                     payload = {
                         'id_usuario': usuario.id_usuario,
                         'email': email,
                         'nombre': usuario.nombre,
-                        'exp': expiration_time
+                        'exp': expiration_timestamp
                     }
                     token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
 
@@ -112,14 +112,24 @@ class CursoViewSet(viewsets.ModelViewSet):
 
 class MisCursosView(APIView):
     serializer_class = MisCursoSerializer
-    permission_classes = [IsAuthenticated]
-    
-    def get(self, request):
-        # Obtén el token de la solicitud
-        token = request.META.get('HTTP_AUTHORIZATION', '').split(' ')[1]
+    permission_classes = [AllowAny]
+
+    def verificar_token(self, token):
+        try:
+            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+            id_usuario = payload.get('id_usuario')
+            return id_usuario
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed('Token expirado')
+        except jwt.InvalidTokenError:
+            raise AuthenticationFailed('Token inválido')
+
+    def post(self, request):
+        # Obtén el token del cuerpo de la solicitud
+        token = request.data.get('token', '')
 
         # Verifica el token
-        usuario_id = verificar_token(token)
+        usuario_id = self.verificar_token(token)
         if usuario_id is None:
             # El token no es válido, devuelve un mensaje de error y un código de estado 401 (No autorizado)
             return Response({'mensaje': 'Token inválido'}, status=401)
