@@ -20,13 +20,13 @@ class Rol(models.Model):
 #===========================================================================================================================================================================
 
 class UserManager(BaseUserManager): #BaseUserManager proporciona un método llamado create_user que te permite crear y guardar un nuevo usuario en la base de datos. 
-    def create_user(self, email, password,**extra_fields):
+    def create_user(self, email, password, id_rol_id=None, **extra_fields):
         if not email:
             raise ValueError('Falta e-mail')
         if not password:
             raise ValueError('Falta ingresar password')
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)   # Establecer la contraseña     
+        user = self.model(email=email, id_rol_id=id_rol_id, **extra_fields)
+        user.set_password(password)
         user.save()
         return user
 
