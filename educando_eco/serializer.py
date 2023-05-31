@@ -14,7 +14,7 @@ class UsuarioSerializer(serializers.Serializer):
     apellido = serializers.CharField(required=True)
     email = serializers.EmailField(required=True)
     password = serializers.CharField(required=True)
-    id_rol_id = serializers.ImageField(required=True)
+    id_rol_id = serializers.IntegerField(required=True)
 
     class Meta:
         model = Usuario
