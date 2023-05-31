@@ -14,10 +14,11 @@ class UsuarioSerializer(serializers.Serializer):
     apellido = serializers.CharField(required=True)
     email = serializers.EmailField(required=True)
     password = serializers.CharField(required=True)
+    id_rol_id = serializers.ImageField(required=True)
 
     class Meta:
         model = Usuario
-        fields = ['nombre', 'apellido', 'email', 'password','id_rol']
+        fields = ['nombre', 'apellido', 'email', 'password','id_rol_id']
         extra_kwargs = {'password': {'write_only': True}}
         #El campo password tiene la configuración adicional write_only=True, lo que significa que solo se utilizará para la creación de un nuevo usuario y no se incluirá en las respuestas de serialización
 
