@@ -30,9 +30,9 @@ class UserManager(BaseUserManager): #BaseUserManager proporciona un método llam
         user.save()
         return user
 
-    def create_superuser(self, email, password, nombre):
+    def create_superuser(self, email, password):
 
-        user = self.create_user(email=email, password=password, nombre=nombre)
+        user = self.create_user(email=email, password=password)
         user.is_staff = True
         user.is_superuser = True
         user.save()
@@ -54,7 +54,7 @@ class Usuario(AbstractBaseUser,PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS =  ['username','password']
+    REQUIRED_FIELDS =  ['password']
     class Meta:
         db_table = 'usuario'
         verbose_name = 'Usuario registrado mediante el front'
