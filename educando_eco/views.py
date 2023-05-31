@@ -94,7 +94,7 @@ class UsuarioView(APIView):
         # Se obtienen todos los usuarios de la base de datos
         usuarios = Usuario.objects.all()
         # Se crea una lista de diccionarios con los datos de cada usuario
-        usuarios_data = [{'nombre': usuario.nombre, 'apellido': usuario.apellido, 'email': usuario.email} for usuario in usuarios]
+        usuarios_data = [{'id_usuario': usuario.id_usuario,'nombre': usuario.nombre, 'apellido': usuario.apellido, 'email': usuario.email} for usuario in usuarios]
         # Se retorna una respuesta JSON con la lista de usuarios y un código de estado 200 (Éxito)
         return JsonResponse({'usuarios': usuarios_data}, status=200)
 #===========================================================================================================================================================================    
