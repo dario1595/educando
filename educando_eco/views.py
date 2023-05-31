@@ -29,6 +29,7 @@ class UsuarioView(APIView):
             password = serializer.validated_data.get('password')
             nombre = serializer.validated_data.get('nombre')
             apellido = serializer.validated_data.get('apellido')
+            id_rol_id = serializer.validated_data.get('id_rol_id')
 
             # Verificar si el usuario ya existe en la base de datos
             usuario_existente = Usuario.objects.filter(email=email).exists()
@@ -37,7 +38,7 @@ class UsuarioView(APIView):
                 return Response({'mensaje': 'El correo electrónico ya está registrado'}, status=400)
 
             # Crear un nuevo usuario en la base de datos
-            usuario = Usuario.objects.create_user(email = email, password = password, nombre = nombre, apellido = apellido)
+            usuario = Usuario.objects.create_user(email = email, password = password, nombre = nombre, apellido = apellido, id_rol_id = id_rol_id)
 
             # Generar un token JWT (JSON Web Token)
             token_payload = {'user_id': usuario.id_usuario, 'email': email, 'nombre': nombre}
