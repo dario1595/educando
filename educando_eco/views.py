@@ -18,6 +18,7 @@ class UsuarioView(viewsets.ViewSet):
     permission_classes = [AllowAny]
 
     def create_user(self, request):
+        # Validar los datos del serializer
         serializer = UsuarioSerializer(data=request.data)
         if serializer.is_valid():
             email = serializer.validated_data.get('email')
@@ -26,10 +27,12 @@ class UsuarioView(viewsets.ViewSet):
             apellido = serializer.validated_data.get('apellido')
             id_rol_id = serializer.validated_data.get('id_rol_id')
 
+            # Verificar si el correo electrónico ya está registrado
             usuario_existente = Usuario.objects.filter(email=email).exists()
             if usuario_existente:
                 return Response({'mensaje': 'El correo electrónico ya está registrado'}, status=400)
 
+            # Crear un nuevo usuario
             usuario = Usuario.objects.create_user(email=email, password=password, nombre=nombre, apellido=apellido, id_rol_id=id_rol_id)
 
             # Generar el token JWT
@@ -44,20 +47,25 @@ class UsuarioView(viewsets.ViewSet):
             }
             token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
 
+            # Devolver una respuesta de éxito con el token generado
             return Response({'mensaje': 'Registro exitoso', 'token': token}, status=201)
         else:
+            # Devolver una respuesta de error con los mensajes de validación
             return Response({'mensaje': 'Datos no válidos', 'errores': serializer.errors}, status=400)
         
     def inicio_sesion(self, request):
+        # Verificar si la solicitud es un método POST
         if request.method == 'POST':
             try:
                 data = request.data
                 email = data.get('email', '')
                 password = data.get('password', '')
 
+                # Autenticar al usuario
                 usuario = authenticate(request, email=email, password=password)
 
                 if usuario is not None:
+                    # Generar el token JWT
                     expiration_time = timezone.now() + datetime.timedelta(hours=12)
                     expiration_timestamp = int(expiration_time.timestamp())
 
@@ -69,17 +77,24 @@ class UsuarioView(viewsets.ViewSet):
                     }
                     token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
 
+                    # Devolver una respuesta de éxito con el token generado
                     return Response({'mensaje': 'Inicio de sesión exitoso', 'token': token}, status=200)
                 else:
+                    # Devolver una respuesta de error si las credenciales son inválidas
                     return Response({'mensaje': 'Credenciales inválidas'}, status=401)
             except:
+                # Devolver una respuesta de error si ocurre algún error durante el proceso
                 return Response({'mensaje': 'Datos no válidos'}, status=400)
 
+        # Devolver una respuesta de error si el método no está permitido
         return Response({'mensaje': 'Método no permitido'}, status=405)
 
     def list_users(self, request):
+        # Obtener la lista de usuarios y serializarlos
         usuarios = Usuario.objects.all()
         serializer = UsuarioSerializer(usuarios, many=True)
+
+        # Devolver la lista de usuarios serializada
         return Response(serializer.data, status=200)
     
 #===========================================================================================================================================================================    
