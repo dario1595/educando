@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import (AbstractBaseUser,PermissionsMixin,BaseUserManager)
+from django.contrib.auth.models import (AbstractBaseUser,PermissionsMixin,BaseUserManager,Group)
 
 # Create your models here.
   
@@ -8,6 +8,7 @@ class Rol(models.Model):
     nombre_rol = models.CharField( max_length=50, null=True)
     alta_rol = models.DateTimeField(null=True)
     baja_rol = models.DateTimeField(null=True, default=None, blank=True)
+    grupos = models.ManyToManyField(Group, related_name ='roles')
     class Meta:
         db_table = 'rol'
         verbose_name = 'Rol de usuario'
