@@ -78,7 +78,7 @@ class UsuarioView(viewsets.ViewSet):
                     token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
 
                     # Devolver una respuesta de éxito con el token generado
-                    return Response({'mensaje': 'Inicio de sesión exitoso', 'token': token}, status=200)
+                    return Response({'mensaje': 'Inicio de sesión exitoso', 'token': token, 'id_usuario': payload.get("id_usuario")}, status=200)
                 else:
                     # Devolver una respuesta de error si las credenciales son inválidas
                     return Response({'mensaje': 'Credenciales inválidas'}, status=401)

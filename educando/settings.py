@@ -58,13 +58,12 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',    
-    'django.middleware.common.CommonMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'educando.urls'
@@ -95,12 +94,12 @@ DATABASES = {
     'default':  dj_database_url.config ()
 
        #{ 
-       # 'ENGINE': 'django.db.backends.mysql',
-       # 'NAME': 'educando',
-       # 'USER': 'admin',
-       # 'PASSWORD':'32034685a',
-       # 'HOST': 'educando.cirdv7yvfitg.us-east-2.rds.amazonaws.com',
-       # 'PORT': 3306,
+        #'ENGINE': 'django.db.backends.mysql',
+        #'NAME': 'educando',
+        #'USER': 'admin',
+        #'PASSWORD':'32034685a',
+        #'HOST': 'educando.cirdv7yvfitg.us-east-2.rds.amazonaws.com',
+        #'PORT': 3306,
        #}
 }
 
