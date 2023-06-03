@@ -13,7 +13,7 @@ from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 
 import datetime, jwt
-
+from django.contrib.auth.models import Group
 class UsuarioView(viewsets.ViewSet):
     permission_classes = [AllowAny]
 
@@ -34,6 +34,12 @@ class UsuarioView(viewsets.ViewSet):
 
             # Crear un nuevo usuario
             usuario = Usuario.objects.create_user(email=email, password=password, nombre=nombre, apellido=apellido, id_rol_id=id_rol_id)
+
+            # Obtener el objeto de grupo correspondiente al id_rol
+            grupo = Group.objects.get(pk=id_rol_id)
+
+            # Asignar el grupo al usuario
+            usuario.groups.add(grupo)
 
             # Generar el token JWT
             expiration_time = timezone.now() + datetime.timedelta(hours=12)
