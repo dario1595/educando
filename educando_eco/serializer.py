@@ -48,11 +48,12 @@ class MisCursoSerializer(serializers.ModelSerializer):
     id_curso = serializers.PrimaryKeyRelatedField(queryset=Curso.objects.all())  # Campo para el ID del curso
 
     # Agregar campo de descripción
+    nombre_curso = serializers.CharField(source='id_curso.nombre_curso', read_only=True)
     descripcion_curso = serializers.CharField(source='id_curso.descripcion', read_only=True)
     
     class Meta:
         model = MisCurso
-        fields = ['id_mis_curso', 'id_usuario', 'id_curso', 'descripcion_curso']
+        fields = ['id_mis_curso', 'id_usuario', 'id_curso', 'nombre_curso', 'descripcion_curso']
 
 
 #===========================================================================================================================================================================
