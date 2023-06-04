@@ -91,16 +91,16 @@ WSGI_APPLICATION = 'educando.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default':  #dj_database_url.config ()
+    'default':  dj_database_url.config ()
 
-       { 
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'educando',
-        'USER': 'admin',
-        'PASSWORD':'32034685a',
-        'HOST': 'educando.cirdv7yvfitg.us-east-2.rds.amazonaws.com',
-        'PORT': 3306,
-       }
+       #{ 
+        #'ENGINE': 'django.db.backends.mysql',
+        #'NAME': 'educando',
+        #'USER': 'admin',
+        #'PASSWORD':'32034685a',
+        #'HOST': 'educando.cirdv7yvfitg.us-east-2.rds.amazonaws.com',
+        #'PORT': 3306,
+       #}
 }
 
 # Password validation
