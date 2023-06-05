@@ -157,10 +157,10 @@ class MisCursosView(APIView):
         # Devuelve los cursos serializados
         return Response(serializer.data)
     
-
 class AdquirirCursoView(APIView):
     def verificar_token(self, token):
         try:
+            # Decodificar el token y obtener el id_usuario del payload
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
             id_usuario = payload.get('id_usuario')
             return id_usuario
@@ -170,8 +170,8 @@ class AdquirirCursoView(APIView):
             raise AuthenticationFailed('Token inválido')
 
     def post(self, request):
-        cursos = request.data  # Obtiene la lista de cursos del cuerpo de la solicitud
-        token = cursos[0].get('token')  # Obtiene el token del primer curso (asumiendo que todos los cursos tienen el mismo token)
+        data = request.data  # Obtener el JSON completo del cuerpo de la solicitud
+        token = data.get('token')  # Obtener el token del JSON
 
         try:
             usuario_id = self.verificar_token(token)
@@ -179,6 +179,8 @@ class AdquirirCursoView(APIView):
                 return Response({'mensaje': 'Token inválido'}, status=401)
 
             usuario = get_object_or_404(Usuario, id_usuario=usuario_id)
+            cursos = data.get('cursos', [])  # Obtener la lista de cursos del JSON (puede estar vacía)
+
             mis_cursos = []  # Lista para almacenar las instancias de MisCurso
 
             with transaction.atomic():
@@ -222,7 +224,7 @@ class AdquirirCursoView(APIView):
 
         except AuthenticationFailed as e:
             return Response({'mensaje': str(e)}, status=401)
-        
+
 #===========================================================================================================================================================================
 class CarritoViewSet(viewsets.ModelViewSet):    
     queryset = Carrito.objects.all()

@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-"admin - Admin12"
 
 from pathlib import Path
 import os, dj_database_url
@@ -94,12 +93,12 @@ DATABASES = {
     'default':  dj_database_url.config ()
 
        #{ 
-       # 'ENGINE': 'django.db.backends.mysql',
-       # 'NAME': 'educando',
-       # 'USER': 'admin',
-       # 'PASSWORD':'32034685a',
-       # 'HOST': 'educando.cirdv7yvfitg.us-east-2.rds.amazonaws.com',
-       # 'PORT': 3306,
+        #'ENGINE': 'django.db.backends.mysql',
+        #'NAME': 'educando',
+        #'USER': 'admin',
+        #'PASSWORD':'32034685a',
+        #'HOST': 'educando.cirdv7yvfitg.us-east-2.rds.amazonaws.com',
+        #'PORT': 3306,
        #}
 }
 
