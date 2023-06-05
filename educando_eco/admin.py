@@ -11,9 +11,11 @@ class CategoriaAdmin(admin.ModelAdmin):
 class CursoAdmin(admin.ModelAdmin): 
     list_display = ('id_curso','id_categoria','nombre_curso','duracion','precio','descripcion','calificacion','fecha_alta_curso','imagen_url')
 class MisCursoAdmin(admin.ModelAdmin): 
-    list_display = ('id_mis_curso','id_usuario','id_curso',)
+    list_display = ('id_mis_curso','id_usuario','id_curso','avance_curso')
 class CarritoAdmin(admin.ModelAdmin):   
-    list_display = ('id_carrito','id_curso','nombre_curso','cantidad','total_suma')
+    list_display = ('id_carrito','usuario','id_curso','nombre_curso','cantidad','total_suma')
+class CompraAdmin(admin.ModelAdmin):   
+    list_display = ('id_compra','id_usuarios','importe_total','fecha_compra')
 class ForoAdmin(admin.ModelAdmin):   
     list_display = ('id_foro','id_usuarios','nombre','mensaje')
 class ContactoAdmin(admin.ModelAdmin):   
