@@ -63,7 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'educando.urls'
@@ -91,16 +91,16 @@ WSGI_APPLICATION = 'educando.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default':  #dj_database_url.config ()
+    'default':  dj_database_url.config ()
 
-       { 
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'educando',
-        'USER': 'admin',
-        'PASSWORD':'32034685a',
-        'HOST': 'educando.cirdv7yvfitg.us-east-2.rds.amazonaws.com',
-        'PORT': 3306,
-       }
+       #{ 
+       # 'ENGINE': 'django.db.backends.mysql',
+       # 'NAME': 'educando',
+       # 'USER': 'admin',
+       # 'PASSWORD':'32034685a',
+       # 'HOST': 'educando.cirdv7yvfitg.us-east-2.rds.amazonaws.com',
+       # 'PORT': 3306,
+       #}
 }
 
 # Password validation
@@ -156,7 +156,11 @@ REST_FRAMEWORK = {
     ],
 }
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:4200',
+    'https://educando-test.onrender.com',
+    # Agrega aquí más dominios si es necesario
+]
 
 AUTH_USER_MODEL = 'educando_eco.Usuario'
 
