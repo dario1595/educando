@@ -162,5 +162,10 @@ CORS_ALLOWED_ORIGINS = [
     # Agrega aquí más dominios si es necesario
 ]
 
+CORS_ALLOW_METHODS = [
+    'GET',
+    'HEAD',
+]
+
 AUTH_USER_MODEL = 'educando_eco.Usuario'
 
