@@ -32,6 +32,6 @@ urlpatterns = [
      # URL para la vista que muestra los cursos segun la categoria
     path('por_categoria/<int:categoria_id>/', views.CursosPorCategoriaView.as_view(), name='cursos_por_categoria'),
 
-    path('cursos/', views.CursoViewSet.as_view(), name='lista_cursos'),
+    path('curso/', views.CursoViewSet.as_view({'get': 'list'}), name='lista_cursos'),
 
 ]

@@ -111,17 +111,16 @@ class UsuarioView(viewsets.ViewSet):
 #===========================================================================================================================================================================    
 
 
-class CategoriaViewSet(viewsets.ModelViewSet):   
+class CategoriaViewSet(viewsets.ViewSet):   
     queryset = Categoria.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = CategoriaSerializer  
 
 class CursoViewSet(viewsets.ModelViewSet):  
+    queryset = Curso.objects.all()
     permission_classes = [permissions.AllowAny]
-    def get(self, request):
-        cursos = Curso.objects.all()
-        serializer = CursoSerializer(cursos, many=True)
-        return Response(serializer.data, status=200)
+    serializer_class = CursoSerializer
+
 class CursosPorCategoriaView(APIView):
     permission_classes = [permissions.AllowAny]
 
