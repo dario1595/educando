@@ -117,10 +117,11 @@ class CategoriaViewSet(viewsets.ModelViewSet):
     serializer_class = CategoriaSerializer  
 
 class CursoViewSet(viewsets.ModelViewSet):  
-    queryset = Curso.objects.all()
     permission_classes = [permissions.AllowAny]
-    serializer_class = CursoSerializer
-
+    def get(self, request):
+        cursos = Curso.objects.all()
+        serializer = CursoSerializer(cursos, many=True)
+        return Response(serializer.data, status=200)
 class CursosPorCategoriaView(APIView):
     permission_classes = [permissions.AllowAny]
 
