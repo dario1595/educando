@@ -110,8 +110,7 @@ class UsuarioView(viewsets.ViewSet):
     
 #===========================================================================================================================================================================    
 
-
-class CategoriaViewSet(viewsets.ViewSet):   
+class CategoriaViewSet(viewsets.ModelViewSet):   
     queryset = Categoria.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = CategoriaSerializer  

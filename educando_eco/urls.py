@@ -5,6 +5,7 @@ from educando_eco import views
 # Definición del enrutador
 router = routers.DefaultRouter()
 router.register(r'categoria', views.CategoriaViewSet, basename='categoria')
+router.register(r'curso', views.CursoViewSet, basename='curso')
 router.register(r'carrito', views.CarritoViewSet, basename='carrito')
 router.register(r'foro', views.ForoViewSet, basename='foro')
 router.register(r'contacto', views.ContactoViewSet, basename='contacto')
@@ -31,7 +32,5 @@ urlpatterns = [
 
      # URL para la vista que muestra los cursos segun la categoria
     path('por_categoria/<int:categoria_id>/', views.CursosPorCategoriaView.as_view(), name='cursos_por_categoria'),
-
-    path('curso/', views.CursoViewSet.as_view({'get': 'list'}), name='lista_cursos'),
 
 ]
