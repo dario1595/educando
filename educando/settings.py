@@ -49,9 +49,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     'coreapi',
     'educando_eco',
-    'corsheaders',
+    
 ]
 
 MIDDLEWARE = [
@@ -65,6 +66,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:4200/',
+)
 
 ROOT_URLCONF = 'educando.urls'
 
@@ -156,16 +161,7 @@ REST_FRAMEWORK = {
     ],
 }
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:4200',
-    'https://educando-test.onrender.com',
-    # Agrega aquí más dominios si es necesario
-]
 
-CORS_ALLOW_METHODS = [
-    'GET',
-    'HEAD',
-]
 
 AUTH_USER_MODEL = 'educando_eco.Usuario'
 
