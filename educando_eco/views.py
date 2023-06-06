@@ -15,6 +15,7 @@ from django.shortcuts import get_object_or_404
 
 import datetime, jwt
 from django.contrib.auth.models import Group
+
 class UsuarioView(viewsets.ViewSet):
     permission_classes = [AllowAny]
 
@@ -120,6 +121,18 @@ class CursoViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     serializer_class = CursoSerializer
 
+class CursosPorCategoriaView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, categoria_id):
+        try:
+            cursos = Curso.objects.filter(id_categoria=categoria_id)  # Utiliza el campo correcto para la categoría
+
+            serializer = CursoSerializer(cursos, many=True)
+            return Response(serializer.data)
+
+        except Curso.DoesNotExist:
+            return Response({'mensaje': 'No se encontraron cursos para la categoría'}, status=404)
 
 #===========================================================================================================================================================================
 
